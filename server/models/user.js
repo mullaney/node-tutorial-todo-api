@@ -88,9 +88,10 @@ UserSchema.statics.findByCredentials = function (email, password) {
 
 UserSchema.pre('save', function(next) {
   var user = this;
+  var saltFactor = (process.env.NODE_ENV === 'test') ? 1 : 10;
 
   if (user.isModified('password')) {
-    bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.genSalt(saltFactor, (err, salt) => {
       bcrypt.hash(user.password, salt, (err, hash) => {
         user.password = hash;
         next();
