@@ -125,7 +125,7 @@ describe('DELETE /todos/:id', () => {
       });
   });
 
-  it('should delete an existing todo by id', (done) => {
+  it('should not delete an existing todo created by another user', (done) => {
     var hexId = todos[0]._id.toHexString();
     request(app)
       .delete(`/todos/${hexId}`)
@@ -193,9 +193,6 @@ describe('UPDATE /todos/:id', () => {
       .expect(404)
       .end(done);
   });
-
-  // duplicate above Test
-  // try to update todo as first user
 
   it('should clear completedAt when completed changed to false', (done) => {
     let id = todos[1]._id.toHexString();
